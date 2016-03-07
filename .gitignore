@@ -1,0 +1,14 @@
+# Secrets
+.env
+.args
+
+# Python
+*.pyc
+.venv
+
+# Jupyter
+notebooks/.ipynb_checkpoints
+
+# Vim
+*.swp
+
