@@ -17,6 +17,7 @@
 
 let
   inherit (nixpkgs) pkgs;
+  inherit (import ./env.nix { inherit nixpkgs; }) jupyter-env;
 in
   pkgs.stdenv.mkDerivation
     {
@@ -24,12 +25,11 @@ in
       src = ./.;
       buildInputs =
         (
-          with import ./env.nix { inherit nixpkgs; };
           with pkgs;
           [
             jupyter-env
 
-            # Utilities (uncomment as needed)
+            # Utilities (comment/uncomment as needed)
             /* cabal2nix */
             /* nixops */
             /* pythonPackages.pgcli */
@@ -139,6 +139,9 @@ in
           # git config filter.lhsconvert.clean 'ihaskell convert'
           # git config filter.lhsconvert.smudge cat
           # git config filter.lhsconvert.required true
+
+          echo "Install ihaskell kernel..."
+          ${jupyter-env}/bin/ihaskell install -l $(${jupyter-env}/bin/ghc --print-libdir)
 
           # echo "Run in a local environment so that we can use pip as needed..."
           # virtualenv --python=python3.4 .venv

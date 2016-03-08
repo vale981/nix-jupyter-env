@@ -52,7 +52,7 @@ let
                       [
                         jupyter
 
-                        # Python packages (uncomment as needed)
+                        # Python packages (comment/uncomment as needed)
                         /* scipy */
                         /* toolz */
                         /* numpy */
@@ -126,42 +126,48 @@ let
     };
   haskellPackages = pkgs.haskell.packages.${haskellCompiler}.override haskellOverrides;
   ihaskellWithPackages = packages: haskellPackages.ghcWithPackages
-   (
-     self:
-       with self;
-       [
-         ihaskell
-
-         # IHaskell packages (uncomment as needed)
-         /* ihaskell-blaze */
-         /* ihaskell-diagrams */
-         /* ihaskell-display */
-
-         # Haskell packages (uncomment as needed)
-         /* opaleye */
-         /* cassava */
-       ] ++ packages self
-   );
-  ihaskell-env =
     (
+      self:
+        with self;
+        [
+          ihaskell
+
+          # IHaskell displayables (comment/uncomment as needed)
+          /* ihaskell-display */
+          ihaskell-aeson
+          ihaskell-basic
+          ihaskell-blaze
+          ihaskell-charts
+          ihaskell-diagrams
+          /* ihaskell-hatex */
+          /* ihaskell-juicypixels */
+          /* ihaskell-magic */
+          /* ihaskell-plot */
+          /* ihaskell-rlangqq */
+          /* ihaskell-static-canvas */
+          /* ihaskell-widgets */
+
+          # Haskell packages (comment/uncomment as needed)
+          opaleye
+          cassava
+        ] ++ packages self
+    );
+  ihaskell-env =
+    let
+      drv = ihaskellWithPackages
+              (
+                self:
+                  with self;
+                  [
+                    # Add your own haskell packages here...
+                  ]
+              );
+    in
       pkgs.buildEnv
         {
           name = "ihaskell-env";
-          paths =
-            [
-              (
-                ihaskellWithPackages
-                  (
-                    self:
-                      with self;
-                      [
-                        # Add your own haskell packages here...
-                      ]
-                  )
-              )
-            ];
-        }
-    );
+          paths = [ drv ];
+        };
 
 in
 
