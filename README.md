@@ -4,11 +4,17 @@ A nix environment for Jupyter along with deployment options. This is a work in p
 Supported kernels
 
 * IPython
-* IHaskell - WORK IN PROGRESS
+* IHaskell
 
-Deployment options:
+Deployment options
 
-* Nix shell environment - WORK IN PROGRESS
+* Nix shell environment
 * NixOps AWS (EC2 spot instance) - WORK IN PROGRESS
 * NixOps VirtualBox - WORK IN PROGRESS
+
+To get started, run
+
+```
+$ nix-shell
+```
 
