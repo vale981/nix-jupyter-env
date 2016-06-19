@@ -45,6 +45,7 @@ let
                         notebook
 
                         # Python packages (comment/uncomment as needed)
+                        ipywidgets
                         /* scipy */
                         /* toolz */
                         /* numpy */
