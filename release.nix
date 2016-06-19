@@ -67,9 +67,35 @@ let
       overrides = self: super:
         let
           callLocalPackage = path: self.callPackage (filterDist path) {};
+          ihaskellSrc = pkgs.fetchFromGitHub
+            {
+              owner = "gibiansky";
+              repo = "IHaskell";
+              sha256 = "17987xf4vai18b0yjqqnk0km5mdp1pmcn4mpwlar757jrzwnjb6m";
+              rev = "94338f8d4f6ee01c948c56b31ddb76fe8af0d630";
+            };
+          overrideIHaskellDisplaySrc = superPkg: pkgs.haskell.lib.overrideCabal superPkg (drv: drv //
+            { src = ihaskellSrc;
+              preUnpack = "sourceRoot=IHaskell-${ihaskellSrc.rev}-src/ihaskell-display/${superPkg.pname}";
+            });
         in
           {
-            # Overides for bleeding-edge ghc 8.0.x (Unfortunately this does not work yet)
+            # Overrides Latest version of ihaskell on GitHub
+            /* ihaskell = pkgs.haskell.lib.overrideCabal super.ihaskell (drv: drv // { src = ihaskellSrc; }); */
+            /* ihaskell-aeson = overrideIHaskellDisplaySrc super.ihaskell-aeson; */
+            /* ihaskell-blaze = overrideIHaskellDisplaySrc super.ihaskell-blaze; */
+            /* ihaskell-charts = overrideIHaskellDisplaySrc super.ihaskell-charts; */
+            /* ihaskell-diagrams = overrideIHaskellDisplaySrc super.ihaskell-diagrams; */
+            /* ihaskell-gnuplot = overrideIHaskellDisplaySrc super.ihaskell-diagrams; */
+            /* ihaskell-hatex = overrideIHaskellDisplaySrc super.ihaskell-hatex; */
+            /* ihaskell-juicypixels = overrideIHaskellDisplaySrc super.ihaskell-juicypixels; */
+            /* ihaskell-magic = overrideIHaskellDisplaySrc super.ihaskell-magic; */
+            /* ihaskell-plot = overrideIHaskellDisplaySrc super.ihaskell-plot; */
+            /* ihaskell-rlangqq = overrideIHaskellDisplaySrc super.ihaskell-rlangqq; */
+            /* ihaskell-static-canvas = overrideIHaskellDisplaySrc super.ihaskell-static-canvas; */
+            /* ihaskell-widgets = pkgs.haskell.lib.dontHaddock (overrideIHaskellDisplaySrc super.ihaskell-widgets); */
+
+            # Overrides for bleeding-edge ghc 8.0.x (Unfortunately this does not work yet)
             /* monads-tf = pkgs.haskell.lib.doJailbreak super.monads-tf; */
             /* ihaskell = */
             /*   self.callPackage */
