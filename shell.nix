@@ -1,23 +1,22 @@
 {
   nixpkgs ?
     let
-      inherit (import <nixpkgs> {}) fetchgit;
+      inherit (import <nixpkgs> {}) fetchFromGitHub;
     in
       import
-        ( fetchgit
+        ( fetchFromGitHub
           {
-            url = "git://github.com/NixOS/nixpkgs.git";
-            sha256 = "1zfk41ddixdycq4w6sxbn9qzgmahfp98niilzlzp6yfg88xpp5v1";
-            # Using the latest unstable nixpkgs for now to get access to recent updates
-            # TODO: should probably peg to a stable version or unpeg in future
-            rev = "2737365741406a2726e755c76390d8d2081119d7";
+            owner = "NixOS";
+            repo = "nixpkgs";
+            rev = "0bd54a6d5d4eba361c5b8ff04dd3c02d6dbfb259";
+            sha256 = "10fkcq9f2pmg5985kbxq05jgx9ih7axpqsam3jxkzpyalgd0gwvy";
           }
         ) {}
 }:
 
 let
   inherit (nixpkgs) pkgs;
-  inherit (import ./env.nix { inherit nixpkgs; }) jupyter-env;
+  inherit (import ./release.nix { inherit nixpkgs; }) jupyter-env;
 in
   pkgs.stdenv.mkDerivation
     {
@@ -32,8 +31,6 @@ in
             # Utilities (comment/uncomment as needed)
             /* cabal2nix */
             /* nixops */
-            /* pythonPackages.pgcli */
-            /* pythonPackages.mycli */
             /* pythonPackages.virtualenv */
             /* pythonPackages.pip */
 

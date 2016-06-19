@@ -12,23 +12,15 @@ let
       overrides = self: super:
         {
           nbstripout = super.buildPythonPackage rec {
-            version = "0.2.4a";
+            version = "0.2.6";
             name = "nbstripout-${version}";
-
-            /* Note that 0.2.4 is currently broken with python3 */
-            /* src = pkgs.fetchurl { */
-            /*   url = "https://pypi.python.org/packages/source/n/nbstripout/${name}.tar.gz"; */
-            /*   sha256 = "1gphp7dl8cw5wmylk90vc2jbq4lgp680w3ybv9k0qq6ra2balcyk"; */
-            /* }; */
-            src = pkgs.fetchgit
-              {
-                url = "git://github.com/kynan/nbstripout.git";
-                sha256 = "12spiwh9wncbrvqhcfnv74zy6qnsxyjl6ma0zknkaxk8ga0bss1z";
-                rev = "fe1f767053462254a13c09bed8c5e24ec216a728";
-              };
+            src = pkgs.fetchurl {
+              url = "https://pypi.python.org/packages/source/n/nbstripout/${name}.tar.gz";
+              sha256 = "1dxij31pxl1lw1zcpi7s84g3ghnjvwamqp22hcr0vg7riwrr0a8w";
+            };
 
             # TODO: what should build inputs look like?
-            buildInputs = with self; [ /*pytest*/ /*nbformat*/ /*jupyter*/ ];
+            buildInputs = with self; [ /*pytest*/ /*nbformat*/ /*jupyter*/ setuptools ];
             propagatedBuildInputs = with self; [  ];
             doCheck = false;
 
@@ -50,7 +42,7 @@ let
                     extraLibs =
                       with pythonPackages;
                       [
-                        jupyter
+                        notebook
 
                         # Python packages (comment/uncomment as needed)
                         /* scipy */
