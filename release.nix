@@ -153,7 +153,6 @@ let
           # IHaskell displayables (comment/uncomment as needed)
           /* ihaskell-display */
           ihaskell-aeson
-          ihaskell-basic
           ihaskell-blaze
           ihaskell-charts
           ihaskell-diagrams
